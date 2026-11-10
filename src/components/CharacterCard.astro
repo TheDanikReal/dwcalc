@@ -1,0 +1,56 @@
+---
+import type { CharacterDefinition, CharacterValue } from "../utils/GameData";
+
+interface Props {
+	imagePath: string;
+	name: CharacterValue;
+}
+
+const { imagePath, name } = Astro.props;
+---
+
+<button
+	type="button"
+	class="character-card"
+	data-character-name={name}
+>
+	<img src={`/characters/${imagePath}`} alt="" />
+</button>
+
+<style>
+	.character-card {
+		display: block;
+		width: 40px;
+		height: 40px;
+		padding: 0;
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+	}
+
+	.character-card img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+</style>
+
+<script>
+	import { selectedCharacter } from "../stores/character";
+	import { definitions } from '../utils/GameData';
+import type { CharacterValue } from '../utils/GameData';
+
+	const cards = document.querySelectorAll<HTMLElement>("[data-character-name]")
+	for (const card of cards) {
+		card.addEventListener("click", () => {
+			const name = card.dataset.characterName as CharacterValue | undefined;
+
+			if (!name) {
+				return;
+			}
+
+			selectedCharacter.set({name, definition: definitions[name]});
+		});
+	};
+</script>

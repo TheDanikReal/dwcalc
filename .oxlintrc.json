@@ -1,0 +1,34 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "eslint",
+    "import",
+    "promise",
+    "typescript",
+    "unicorn",
+    "oxc"
+  ],
+  "categories": {
+    "correctness": "error",
+    "nursery": "warn",
+    "pedantic": "error",
+    "style": "warn",
+    "perf": "error",
+    "restriction": "error",
+    "suspicious": "error"
+  },
+  "rules": {
+    "no-magic-numbers": "allow",
+    "sort-keys": "allow",
+    "no-ternary": "allow",
+    "no-console": "allow",
+    "import/no-named-export": "allow",
+    "one-var": "allow",
+    "import/group-exports": "allow",
+    "capitalized-comments": "allow"
+  },
+  "options": {},
+  "env": {
+    "builtin": true
+  }
+}

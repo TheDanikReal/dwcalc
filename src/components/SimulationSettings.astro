@@ -1,0 +1,19 @@
+---
+---
+
+<input type="range" min="0" max="100" step="1" id="skillAccuracy" name="skillAccuracy" />
+<label for="skillAccuracy" id="skillLabel">Accuracy of skill checks: 60%</label>
+
+<script>
+import { setAccuracy } from "../stores/extraction"
+
+const skillAccuracyElem = document.getElementById("skillAccuracy") as HTMLInputElement
+const skillAccuracyLabelElem = document.getElementById("skillLabel") as HTMLInputElement
+
+skillAccuracyElem.addEventListener("input", (event) => {
+    const current = event.currentTarget as HTMLInputElement
+    const accuracy = current.valueAsNumber / 100
+    setAccuracy(accuracy)
+    skillAccuracyLabelElem.textContent = `Accuracy of skill checks: ${accuracy * 100}%`
+})
+</script>

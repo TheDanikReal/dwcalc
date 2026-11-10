@@ -1,0 +1,62 @@
+---
+---
+
+<section aria-live="polite">
+	<h2 id="characterName">Select a character</h2>
+	<ul>
+		<li id="skill"></li>
+		<li id="extraction"></li>
+		<li id="speed"></li>
+		<li id="stamina"></li>
+		<li id="extractionStats"></li>
+		<li id="currentStats"></li>
+	</ul>
+</section>
+
+<script>
+	import { selectedCharacter } from "../stores/character";
+	import { simulationSettings } from "../stores/extraction";
+	import {
+		calculateMachineCompletionTime,
+		displayStars,
+	} from "../utils/displayStars";
+	import { ExtractionSpeed } from "../utils/GameData";
+
+	const characterNameElem = document.querySelector("#characterName")!;
+
+	const skillElem = document.querySelector("#skill")!;
+	const extractionElem = document.querySelector("#extraction")!;
+	const speedElem = document.querySelector("#speed")!;
+	const staminaElem = document.querySelector("#stamina")!;
+	const extractionStatsElem = document.querySelector("#extractionStats")!;
+	const currentStatsElem = document.querySelector("#currentStats")!;
+
+	const calculateStats = () => {
+		const character = selectedCharacter.get();
+		if (!character) {
+			characterNameElem.textContent = "Select a character";
+			return;
+		}
+
+		const { name } = character;
+		const { stats } = character.definition;
+
+		characterNameElem.textContent = name;
+
+		skillElem.textContent = `Skill: ${displayStars(stats.skill)}`;
+		extractionElem.textContent = `Extraction: ${displayStars(stats.extraction)}`;
+		speedElem.textContent = `Speed: ${displayStars(stats.speed)}`;
+		staminaElem.textContent = `Stamina: ${displayStars(stats.stamina)}`;
+		extractionStatsElem.textContent = `${(45 / ExtractionSpeed[stats.extraction]).toFixed(2)} seconds`;
+		const completionTime = calculateMachineCompletionTime(
+			stats.extraction,
+			stats.skill,
+			simulationSettings.get()?.skillCheckAccuracy,
+		).toFixed(2);
+		currentStatsElem.textContent = `with settings: ${completionTime} seconds`;
+	};
+
+	// subscribe on character and settings update to recalculate stuff
+	selectedCharacter.subscribe(calculateStats);
+	simulationSettings.subscribe(calculateStats);
+</script>
