@@ -1,0 +1,54 @@
+---
+import CharacterCard from "../components/CharacterCard.astro";
+import CharacterStats from "../components/CharacterStats.astro";
+import SimulationSettings from "../components/SimulationSettings.astro";
+import { Characters, definitions } from '../utils/GameData';
+import type { CharacterValue } from '../utils/GameData';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro Framework</title>
+	</head>
+	<body>
+		<div class="character-grid">
+			{Object.entries(definitions).map(([name, definition]) => {
+				return (
+					<CharacterCard
+						imagePath={definition.image}
+						name={name as CharacterValue}
+					/>
+				);
+			})}
+		</div>
+		<hr class="character-separator" />
+		<CharacterStats />
+		<SimulationSettings />
+	</body>
+</html>
+
+<style>
+	.character-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+		gap: 1rem;
+	}
+
+	.character-separator {
+		margin: 2rem 0;
+		border: 0;
+		border-top: 1px solid currentColor;
+		opacity: 0.25;
+	}
+
+	html {
+		background-color: #1a1a1a;
+		color: #ffffff;
+		font-family: system-ui, sans-serif;
+	}
+</style>
