@@ -14,11 +14,13 @@
 </section>
 
 <script>
+	import { effect } from "nanostores";
 	import { selectedCharacter } from "../stores/character";
 	import { simulationSettings } from "../stores/extraction";
 	import {
 		calculateMachineCompletionTime,
 		displayStars,
+		getMachineUnits,
 	} from "../utils/displayStars";
 	import { ExtractionSpeed } from "../utils/GameData";
 
@@ -48,15 +50,33 @@
 		speedElem.textContent = `Speed: ${displayStars(stats.speed)}`;
 		staminaElem.textContent = `Stamina: ${displayStars(stats.stamina)}`;
 		extractionStatsElem.textContent = `${(45 / ExtractionSpeed[stats.extraction]).toFixed(2)} seconds`;
+	};
+
+	const calculateMachine = () => {
+		const character = selectedCharacter.get();
+		const settings = simulationSettings.get();
+		if (!character || !settings) {
+			characterNameElem.textContent = "Select a character";
+			return;
+		}
+
+		const { stats } = character.definition;
+
 		const completionTime = calculateMachineCompletionTime(
 			stats.extraction,
 			stats.skill,
-			simulationSettings.get()?.skillCheckAccuracy,
+			settings.skillCheckAccuracy,
+			0.25,
+			getMachineUnits(
+				settings.techSavvy,
+				character.definition.applyMachineUnits,
+			),
 		).toFixed(2);
 		currentStatsElem.textContent = `with settings: ${completionTime} seconds`;
 	};
 
 	// subscribe on character and settings update to recalculate stuff
 	selectedCharacter.subscribe(calculateStats);
-	simulationSettings.subscribe(calculateStats);
+
+	effect([selectedCharacter, simulationSettings], calculateMachine);
 </script>

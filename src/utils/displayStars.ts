@@ -4,6 +4,15 @@ export function displayStars(stars: Stars) {
     return "★".repeat(stars) + "☆".repeat(5 - stars)
 }
 
+export function getMachineUnits(
+    /** is tech savvy card equipped */
+    techSavvy: boolean,
+    applyMachineUnits?: (base: number) => number
+) {
+    const base = 45 - 5 * Number(techSavvy)
+    return applyMachineUnits?.(base) ?? base
+}
+
 export function calculateMachineCompletionTime(
     /** extraction stars of a character */
     extractionStars: Stars,
@@ -37,6 +46,7 @@ export function calculateMachineCompletionTime(
     /** total skill check speed, for 1 passive speed and 0.17 boost per second
      *  it gives 1.17 units per second */
     const totalSkillCheckSpeed = passiveCompletionRate + averageSkillCheckSpeed
+
     const machineCompletionTime = machineUnits / totalSkillCheckSpeed
     return machineCompletionTime
 }

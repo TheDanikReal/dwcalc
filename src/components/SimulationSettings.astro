@@ -1,19 +1,58 @@
 ---
 ---
 
-<input type="range" min="0" max="100" step="1" id="skillAccuracy" name="skillAccuracy" />
-<label for="skillAccuracy" id="skillLabel">Accuracy of skill checks: 60%</label>
+<fieldset>
+    <legend>settings</legend>
+    <input
+        type="range"
+        value="60"
+        min="0"
+        max="100"
+        step="1"
+        id="skillAccuracy"
+        name="skillAccuracy"
+    />
+    <label for="skillAccuracy" id="skillLabel">
+        Accuracy of skill checks: 60%
+    </label>
 
+    <br />
+
+    <input type="checkbox" id="techSavvy" name="techSavvy" />
+    <label for="techSavvy" id="techSavvyLabel">
+        Tech savvy is not equipped (card that gives -5 extraction units)
+    </label>
+</fieldset>
 <script>
-import { setAccuracy } from "../stores/extraction"
+    import { setTechSavvy, setAccuracy } from "../stores/extraction";
 
-const skillAccuracyElem = document.getElementById("skillAccuracy") as HTMLInputElement
-const skillAccuracyLabelElem = document.getElementById("skillLabel") as HTMLInputElement
+    const skillAccuracyElem = document.getElementById(
+        "skillAccuracy",
+    ) as HTMLInputElement;
+    const skillAccuracyLabelElem = document.getElementById(
+        "skillLabel",
+    ) as HTMLLabelElement;
 
-skillAccuracyElem.addEventListener("input", (event) => {
-    const current = event.currentTarget as HTMLInputElement
-    const accuracy = current.valueAsNumber / 100
-    setAccuracy(accuracy)
-    skillAccuracyLabelElem.textContent = `Accuracy of skill checks: ${accuracy * 100}%`
-})
+    const techSavvyElem = document.getElementById(
+        "techSavvy",
+    ) as HTMLInputElement;
+    const techSavvyLabelElem = document.getElementById(
+        "techSavvyLabel",
+    ) as HTMLLabelElement;
+
+    skillAccuracyElem.addEventListener("input", (event) => {
+        const current = event.currentTarget as HTMLInputElement;
+        const accuracy = current.valueAsNumber / 100;
+        setAccuracy(accuracy);
+        skillAccuracyLabelElem.textContent = `Accuracy of skill checks: ${accuracy * 100}%`;
+    });
+
+    techSavvyElem.addEventListener("input", (event) => {
+        const current = event.currentTarget as HTMLInputElement;
+        const techSavvy = current.checked;
+        setTechSavvy(techSavvy);
+        techSavvyLabelElem.textContent = techSavvy
+            ? `Tech savvy enabled`
+            : `Tech savvy is not equipped (card that gives -5 extraction units)`;
+    });
 </script>

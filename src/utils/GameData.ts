@@ -91,6 +91,7 @@ export interface CharacterDefinition {
   applyExtraction?: (base: number, ctx: StatContext) => number;
   applySpeed?: (base: number, ctx: StatContext) => number;
   applySkill?: (base: number, ctx: StatContext) => number;
+  applyMachineUnits?: (base: number) => number
 }
 
 export const definitions: Record<CharacterValue, CharacterDefinition> = {
@@ -152,6 +153,7 @@ export const definitions: Record<CharacterValue, CharacterDefinition> = {
   [Characters.Eggson]: {
     image: "Eggson_Render.webp",
     stats: { skill: 3, extraction: 3, speed: 3, stamina: 3 },
+    applyMachineUnits: (base) => (base * 0.8)
   },
   [Characters.Finn]: {
     image: "Finn_Render.webp",
