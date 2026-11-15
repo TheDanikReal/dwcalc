@@ -25,10 +25,15 @@
     "import/no-named-export": "allow",
     "one-var": "allow",
     "import/group-exports": "allow",
-    "capitalized-comments": "allow"
+    "capitalized-comments": "allow",
+    "typescript/prefer-readonly-parameter-types": "allow"
   },
-  "options": {},
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
   "env": {
-    "builtin": true
+    "builtin": true,
+    "browser": true
   }
 }
